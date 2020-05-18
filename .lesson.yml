@@ -1,0 +1,7 @@
+---
+title: "React Storefront"
+type: "challenge"
+description: "Build out a digital platform for purchasing goods and services."
+tags: "react"
+ignore:
+- "react-storefront.md"
