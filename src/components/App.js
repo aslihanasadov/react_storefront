@@ -1,11 +1,8 @@
-import React from 'react'
+import React from "react"
+import { Route, Switch, BrowserRouter } from "react-router-dom"
 
 const App = (props) => {
-  return (
-    <div className="grid-container app">
-      <h2 className="title">React Storefront</h2>
-    </div>
-  );
+  return <div>React Storefront</div>
 }
 
 export default App
