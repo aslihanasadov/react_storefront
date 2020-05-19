@@ -1,9 +1,10 @@
-import React from "react";
+import React from "react"
 
 const Footer = () => {
   return (
     <footer>
-      © From the Beginning of Quarantine – 2020: React Storefront, Inc. All rights reserved.
+      © From the Beginning of Quarantine – 2020: React Storefront, Inc. All
+      rights reserved.
       <br />
       Created by{" "}
       <a href="https://github.com/cs-witch" target="_blank">
@@ -26,7 +27,7 @@ const Footer = () => {
         Stephanie Garcia
       </a>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer
