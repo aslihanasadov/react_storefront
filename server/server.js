@@ -14,7 +14,7 @@ app.engine(
   "hbs",
   hbsMiddleware({
     defaultLayout: "default",
-    extname: ".hbs"
+    extname: ".hbs",
   })
 )
 
@@ -30,12 +30,62 @@ app.use(bodyParser.json())
 const { Pool } = require("pg")
 
 const pool = new Pool({
-  connectionString: "postgres://postgres:password@127.0.0.1:5432/react_storefront"
+  connectionString:
+    "postgres://postgres:password@127.0.0.1:5432/react_storefront",
 })
 
-
 // Express routes
-app.get('*', (req, res) => {
+app.get("/api/v1/:category", (req, res) => {
+  let category = req.params.category
+  pool
+    .query(
+      "SELECT products.* FROM categories JOIN products ON products.category_id = categories.id WHERE categories.name = $1",
+      [category]
+    )
+    .then((result) => {
+      return res.json(result.rows)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+})
+
+app.get("/api/v1/products/:id", (req, res) => {
+  let productId = req.params.id
+  pool
+    .query("SELECT * FROM products WHERE id = $1", [productId])
+    .then((result) => {
+      return res.json(result.rows)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+})
+
+app.post("/api/v1/new_product", (req, res) => {
+  const {
+    name,
+    description,
+    price,
+    inventoryCount,
+    imageUrl,
+    categoryId,
+  } = req.body
+
+  pool
+    .query(
+      "INSERT INTO products(name, description, price, inventory_count, image_url, category_id) VALUES($1, $2, $3, $4, $5, $6)",
+      [name, description, price, inventoryCount, imageUrl, categoryId]
+    )
+    .then((result) => {
+      return res.json(result.rows)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+})
+
+app.get("*", (req, res) => {
   res.render("home")
 })
 
