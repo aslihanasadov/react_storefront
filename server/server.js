@@ -48,14 +48,18 @@ app.get("/api/v1/products", (req, res) => {
 
 app.get("/api/v1/categories", (req, res) => {
   pool
-    .query("SELECT * FROM categories")
-    .then((result) => {
-      return res.json(result.rows)
+    .connect()
+    .then(client => {
+      client.query("SELECT * FROM categories").then(result => {
+        const categories = result.rows;
+        client.release();
+        res.json(categories);
+      });
     })
-    .catch((error) => {
-      console.log(error)
-    })
-})
+    .catch(error => {
+      console.log("ERROR =====> ", error);
+    });
+});
 
 app.get("/api/v1/:category", (req, res) => {
   let category = req.params.category
@@ -105,6 +109,11 @@ app.post("/api/v1/new_product", (req, res) => {
     .catch((error) => {
       console.log(error)
     })
+})
+
+//Express Routes
+app.get("/", (req, res) => {
+  res.redirect("/store")
 })
 
 app.get("*", (req, res) => {
