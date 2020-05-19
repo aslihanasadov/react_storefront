@@ -1,8 +1,12 @@
 import React from "react"
-import { Route, Switch, BrowserRouter } from "react-router-dom"
+import NavBar from "./NavBar"
 
 const App = (props) => {
-  return <div>React Storefront</div>
+  return (
+    <div>
+      <NavBar />
+    </div>
+  )
 }
 
 export default App
