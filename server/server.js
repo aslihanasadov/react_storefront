@@ -35,6 +35,28 @@ const pool = new Pool({
 })
 
 // Express routes
+app.get("/api/v1/products", (req, res) => {
+  pool
+    .query("SELECT * FROM products")
+    .then((result) => {
+      return res.json(result.rows)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+})
+
+app.get("/api/v1/categories", (req, res) => {
+  pool
+    .query("SELECT * FROM categories")
+    .then((result) => {
+      return res.json(result.rows)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+})
+
 app.get("/api/v1/:category", (req, res) => {
   let category = req.params.category
   pool
