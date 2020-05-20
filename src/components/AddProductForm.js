@@ -29,8 +29,6 @@ const AddProductForm = props => {
             image_url:newForm.image_url,
             inventoryCount: 5 
         }
-       
-            fetch(`/api/v1/new_product`)
 
             fetch(`/api/v1/new_product`, {
                 method: "POST",
@@ -63,6 +61,10 @@ const AddProductForm = props => {
 
     return(
         <div>
+            <br></br>
+            <br></br>
+            <br></br>
+        <div>
         <form onSubmit={handleSubmit}></form>
         <div className="small-12 medium-6 columns">
             <label>Name</label>
@@ -70,7 +72,23 @@ const AddProductForm = props => {
         </div>
         <div className="small-12 medium-6 columns">
             <label>Category</label>
-            <input name="category" id="category" type="text" onChange={handleChange} value={newForm.name} />
+            <select name="category" id="category" value={newForm.category} onChange={handleChange}>
+        <option type="text" value="">
+          -
+        </option>
+        <option type="text" value="tops">
+          Tops
+        </option>
+        <option type="text" value="bottoms">
+          Bottoms
+        </option>
+        <option type="text" value="sportsBras">
+          Sports Bras
+        </option>
+        <option type="text" value="shoes">
+         Shoes
+        </option>  
+      </select>
         </div>
         <div className="small-12 medium-6 columns">
             <label>Price</label>
@@ -88,7 +106,7 @@ const AddProductForm = props => {
               <input name="button" type="submit" className="button" />
             </div>
         </div>
-
+        </div>
     )
 }
 export default AddProductForm
