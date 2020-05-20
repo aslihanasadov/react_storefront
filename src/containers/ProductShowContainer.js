@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react"
-import ProductTile from "../components/ProductTile"
+import ProductInfo from "../components/ProductInfo"
 
-const ProductIndex = (props) => {
-  const [list, setList] = useState([])
-  const category = props.match.params.category
+const ProductShow = (props) => {
+  const [product, setProduct] = useState({})
+  const productId = props.match.params.id
 
   useEffect(() => {
-    fetch(`/api/v1/${category}`)
+    fetch(`/api/v1/products/${productId}`)
       .then((response) => {
         if (response.ok) {
           return response
@@ -20,26 +20,23 @@ const ProductIndex = (props) => {
         return result.json()
       })
       .then((json) => {
-        setList(json)
+        setProduct(json)
       })
       .catch((error) => {
         console.log(error)
       })
   }, [])
 
-  const listByProdCat = list.map((product) => {
-    return (
-      <ProductTile key={product.id} product={product} category={category} />
-    )
-  })
+  const addToCart = (productId, quantity) => {
+    const cookieString = `${productId}=${quantity}`
+    document.cookie = cookieString
+  }
 
   return (
     <div>
-      <div>
-        <h4>{listByProdCat}</h4>
-      </div>
+      <ProductInfo product={product[0]} addToCart={addToCart} />
     </div>
   )
 }
 
-export default ProductIndex
+export default ProductShow
