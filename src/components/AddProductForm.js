@@ -3,11 +3,9 @@ import React, { useState } from "react"
 const AddProductForm = props => {
     const defaultForm = {
         name:"",
-        description:"",
+        category:"",
         price:"",
-        inventory_count:"",
-        image_url:"",
-        category_id:""
+        description:""
     }
 
     const [newForm, setNewForm] = useState(defaultForm)
@@ -25,11 +23,9 @@ const AddProductForm = props => {
 
         let formPayload = {
             name: newForm.name,
-            description: newForm.description,
+            category:newForm.category,
             price: newForm.price,
-            inventory_count: newForm.inventory_count,
-            image_url: newForm.inventory_count,
-            category_id:newForm.category_id
+            description: newForm.description  
         }
         props.addNewForm(formPayload)
         props.setShowForm(false)
