@@ -5,7 +5,8 @@ const AddProductForm = props => {
         name:"",
         category:"",
         price:"",
-        description:""
+        description:"",
+        image_url:""
     }
 
     const [newForm, setNewForm] = useState(defaultForm)
@@ -20,14 +21,41 @@ const AddProductForm = props => {
 
     const handleSubmit = event => {
         event.preventDefault()
-
         let formPayload = {
             name: newForm.name,
             category:newForm.category,
             price: newForm.price,
-            description: newForm.description  
+            description: newForm.description,
+            image_url:newForm.image_url,
+            inventoryCount: 5 
         }
-        props.addNewForm(formPayload)
+       
+            fetch(`/api/v1/new_product`)
+
+            fetch(`/api/v1/new_product`, {
+                method: "POST",
+                body: JSON.stringify(formPayLoad),
+                headers: { "Content-Type": "application/json" }
+            }) 
+              .then((response) => {
+                if (response.ok) {
+                  return response
+                } else {
+                  let errorMessage = `${response.status} (${response.statusText})`,
+                    error = new Error(errorMessage)
+                  throw error
+                }
+              })
+              .then((result) => {
+                return result.json()
+              })
+              .then((json) => {
+                setPark(json)
+              })
+              .catch((error) => {
+                console.log(error)
+              })
+        
         props.setShowForm(false)
         setNewForm(defaultForm)
         setMessage("Thank you for purchase")
@@ -39,6 +67,22 @@ const AddProductForm = props => {
         <div className="small-12 medium-6 columns">
             <label>Name</label>
             <input name="name" id="name" type="text" onChange={handleChange} value={newForm.name} />
+        </div>
+        <div className="small-12 medium-6 columns">
+            <label>Category</label>
+            <input name="category" id="category" type="text" onChange={handleChange} value={newForm.name} />
+        </div>
+        <div className="small-12 medium-6 columns">
+            <label>Price</label>
+            <input name="price" id="price" type="text" onChange={handleChange} value={newForm.name} />
+        </div>
+        <div className="small-12 medium-6 columns">
+            <label>Description</label>
+            <input name="description" id="description" type="text" onChange={handleChange} value={newForm.name} />
+        </div>
+        <div className="small-12 medium-6 columns">
+            <label>Image</label>
+            <input name="image_url" id="image_url" type="text" onChange={handleChange} value={newForm.name} />
         </div>
         <div className="small-12 columns">
               <input name="button" type="submit" className="button" />
