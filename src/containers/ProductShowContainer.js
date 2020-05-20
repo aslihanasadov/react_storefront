@@ -27,11 +27,6 @@ const ProductShow = (props) => {
       })
   }, [])
 
-  const addToCart = (productId, quantity) => {
-    const cookieString = `${productId}=${quantity}`
-    document.cookie = cookieString
-  }
-
   return (
     <div>
       <ProductInfo product={product[0]} addToCart={addToCart} />
