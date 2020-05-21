@@ -136,6 +136,6 @@ const AddProductForm = (props) => {
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 export default AddProductForm;
