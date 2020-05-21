@@ -36,7 +36,7 @@ const NavBar = (props) => {
         <div className="top-bar-right">
           <ul className="menu">
             <li>
-              <Link to="/new">Sell</Link>
+              <Link to="/store/new">Sell</Link>
             </li>
             <li>
               <Link to="/store/cart">
