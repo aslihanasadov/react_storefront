@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react'
-import ProductTile from './ProductTile'
+// import ProductTile from './ProductTile'
+import ProductList from './ProductList'
 
 const Search=(props) => {
     const [searchTerm, setSearchTerm] = useState("")
@@ -28,18 +29,31 @@ const Search=(props) => {
       })
       .catch((error) => {
         error.text().then((errorMessage) => {
-          this.props.dispactch(displayError(errorMessage));
+          this.props.dispatch(displayError(errorMessage));
         });
       });
     }, []);
 
 
 useEffect(() => {
-    const results = products.filter(park => 
-        product.category.name.toLowerCase().includes(searchTerm.toLowerCase())
+    const results = products.filter(product => 
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setSearchResults(results)
 }, [searchTerm]);
+
+//     searchHandler(event){
+//     let keyword =event.target.value;
+//     let filtered=this.state.allData.filter((item)=>{
+//       return item.companyName.indexOf(keyword) > -1
+//     });
+//     if (keyword === "") {
+//       filtered = [];
+//     }
+//     this.setSearchResults({
+//       filtered
+//     })
+//   }
 
 const lastIndex = searchResults.length - 1
 const listSearchResults = searchResults.map((product, i) => {
@@ -62,12 +76,13 @@ const listSearchResults = searchResults.map((product, i) => {
     }
 
     return (
-        <ProductTile 
-        key = {product.id}
-        data ={products}
-        name = {product.name}
-        lastColumn={lastColumn}
-        />
+        <ProductList 
+        key={product.id} 
+        name={product.name}
+        // products={products}
+        // productAvailability={productAvailability}
+        // lastColumn={lastColumn}
+      />
     )
 })
 
