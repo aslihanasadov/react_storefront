@@ -39,7 +39,7 @@ const NavBar = (props) => {
               <Link to="/new">Sell</Link>
             </li>
             <li>
-              <Link to="/cart">
+              <Link to="/store/cart">
                 <i className="fas fa-shopping-cart"></i>
               </Link>
             </li>

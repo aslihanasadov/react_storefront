@@ -5,6 +5,11 @@ const ProductShow = (props) => {
   const [product, setProduct] = useState({})
   const productId = props.match.params.id
 
+  const addToCart = (productId, quantity) => {
+    const cookieString = `${productId}=${quantity}`
+    document.cookie = cookieString
+  }
+
   useEffect(() => {
     fetch(`/api/v1/products/${productId}`)
       .then((response) => {
