@@ -1,5 +1,4 @@
 import React, { useState, useEffect, Fragment } from 'react'
-import ParkList from "./ParkList"
 import ProductTile from './ProductTile'
 
 const Search=(props) => {
@@ -13,6 +12,7 @@ const Search=(props) => {
 
     useEffect(() => {
         fetch("/api/v1/products")
+        .then((response) => {
         if (response.ok) {
             return response;
           } else {
@@ -31,6 +31,7 @@ const Search=(props) => {
           this.props.dispactch(displayError(errorMessage));
         });
       });
+    }, []);
 
 
 useEffect(() => {
@@ -43,13 +44,13 @@ useEffect(() => {
 const lastIndex = searchResults.length - 1
 const listSearchResults = searchResults.map((product, i) => {
     let productAvailability = ""
-    let productClass = ""
+    let productCategory = ""
     
     if(product.exceptionName != null) {
         productAvailability = product.exceptionName
-        productClass = "closed"
+        productClass = "available"
     } else {
-        productAvailability = "yes"
+        productAvailability = "no"
         productClass = "not available"
     }
 
@@ -82,11 +83,9 @@ const listSearchResults = searchResults.map((product, i) => {
                />
            </div>
            <div className="search-results">
-               <EqualHeight>
-                   {listSearchResults}
-               </EqualHeight>
            </div>
        </Fragment> 
     )
     }
+
 export default Search

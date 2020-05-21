@@ -30,6 +30,7 @@ const ProductIndex = (props) => {
   const listByProdCat = list.map((product) => {
     return (
       <ProductTile key={product.id} product={product} category={category} />
+     
     )
   })
 

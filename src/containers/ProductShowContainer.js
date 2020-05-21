@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import ProductInfo from "../components/ProductInfo"
+import Search from "../components/Search"
 
 const ProductShow = (props) => {
   const [product, setProduct] = useState({})
@@ -35,6 +36,7 @@ const ProductShow = (props) => {
   return (
     <div>
       <ProductInfo product={product[0]} addToCart={addToCart} />
+      <Search />
     </div>
   )
 }
