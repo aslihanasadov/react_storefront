@@ -44,7 +44,7 @@ useEffect(() => {
 const lastIndex = searchResults.length - 1
 const listSearchResults = searchResults.map((product, i) => {
     let productAvailability = ""
-    let productCategory = ""
+    let productClass = ""
     
     if(product.exceptionName != null) {
         productAvailability = product.exceptionName

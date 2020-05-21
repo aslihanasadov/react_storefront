@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import ProductTile from "../components/ProductTile"
+import Search from "../components/Search"
 
 const ProductIndex = (props) => {
   const [list, setList] = useState([])
@@ -37,6 +38,7 @@ const ProductIndex = (props) => {
   return (
     <div>
       <div>
+        <Search />
         <h4>{listByProdCat}</h4>
       </div>
     </div>
