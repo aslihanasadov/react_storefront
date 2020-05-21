@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import CategoriesTile from "../components/CategoriesTile"
-import HotItems from "../components/HotItems";
+import HotItemsTile from "../components/HotItemsTile";
 
 const IndexCategories = props => {
     const [allCategories, setAllCategories] = useState ([]);
@@ -42,12 +42,14 @@ const IndexCategories = props => {
 
   return (
       <Fragment>
+        <div>
+          <HotItemsTile/>
+        </div>
         <br/>
         <br/>
         <br/>
         <h2>What are you looking for today?</h2>
         <div>{mapCategories}</div>
-        <HotItems />
       </Fragment>
   )
 }

@@ -88,6 +88,21 @@ app.get("/api/v1/products/:id", (req, res) => {
     })
 })
 
+app.get("/api/v1/hotItems", (req, res) => {
+  pool
+      .connect()
+      .then(client => {
+        client.query("SELECT * FROM products ORDER BY category_id, RANDOM() LIMIT 3").then(result => {
+          const products = result.rows;
+          client.release();
+          res.json(products);
+        });
+      })
+      .catch(error => {
+        console.log("ERROR =====> ", error);
+      });
+  });
+
 app.post("/api/v1/new_product", (req, res) => {
   const {
     name,
