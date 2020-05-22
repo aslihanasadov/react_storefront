@@ -4,6 +4,7 @@ import ShoppingCartItem from "../components/ShoppingCartItem"
 const ShoppingCartContainer = (props) => {
   const [allProductList, setAllProductList] = useState({})
   const [updateCart, setUpdateCart] = useState(false)
+  const [open, setOpen] = useState(false)
   let cookies = []
   let productsInCart = []
   let total = 0
@@ -58,6 +59,7 @@ const ShoppingCartContainer = (props) => {
   }
 
   if (allProductList.length > 0) {
+    cookies.sort((a, b) => a.productId - b.productId)
     cookies.forEach((cookie) => {
       allProductList.forEach((item) => {
         if (item.id === cookie.productId) {
@@ -79,9 +81,8 @@ const ShoppingCartContainer = (props) => {
 
   return (
     <div>
-      <h1>Shopping Cart</h1>
       {productsInCart}
-      <h2>Total: {formatter.format(total)}</h2>
+      <h2 className="cart-total">Order Total: {formatter.format(total)}</h2>
     </div>
   )
 }

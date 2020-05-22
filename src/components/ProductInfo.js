@@ -1,7 +1,13 @@
-import React, { useState } from "react"
+import React, { useState, Fragment } from "react"
+import Snackbar from "@material-ui/core/Snackbar"
+import IconButton from "@material-ui/core/IconButton"
+import CloseIcon from "@material-ui/icons/Close"
 
 const ProductInfo = (props) => {
   const [quantity, setQuantity] = useState(1)
+  const [addItem, setAddItem] = useState(false)
+  const [alreadyAdded, setAlreadyAdded] = useState(false)
+  const [lowInventory, setLowInventory] = useState(false)
 
   let purchaseButton
   let name
@@ -28,9 +34,14 @@ const ProductInfo = (props) => {
   const purchase = (event) => {
     event.preventDefault()
     if (quantity <= inventoryCount) {
-      props.addToCart(props.product.id, quantity)
+      if (document.cookie.indexOf(props.product.id) == -1) {
+        props.addToCart(props.product.id, quantity)
+        setAddItem(true)
+      } else {
+        setAlreadyAdded(true)
+      }
     } else {
-      alert(`Sorry there are only ${inventoryCount} available at this time`)
+      setLowInventory(true)
     }
   }
 
@@ -53,6 +64,15 @@ const ProductInfo = (props) => {
   }
   const handleInputChange = (event) => {
     setQuantity(event.currentTarget.value)
+  }
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return
+    }
+    setAddItem(false)
+    setAlreadyAdded(false)
+    setLowInventory(false)
   }
 
   if (props.product) {
@@ -79,6 +99,81 @@ const ProductInfo = (props) => {
               </div>
             </div>
           </form>
+        </div>
+
+        <div>
+          <Snackbar
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
+            open={addItem}
+            autoHideDuration={3000}
+            onClose={handleClose}
+            message={"Added to cart!"}
+            action={
+              <Fragment>
+                <IconButton
+                  size="small"
+                  aria-label="close"
+                  color="inherit"
+                  onClick={handleClose}
+                >
+                  <CloseIcon fontSize="small" />
+                </IconButton>
+              </Fragment>
+            }
+          />
+        </div>
+
+        <div>
+          <Snackbar
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
+            open={alreadyAdded}
+            autoHideDuration={3000}
+            onClose={handleClose}
+            message={"This item is already in your cart!"}
+            action={
+              <Fragment>
+                <IconButton
+                  size="small"
+                  aria-label="close"
+                  color="inherit"
+                  onClick={handleClose}
+                >
+                  <CloseIcon fontSize="small" />
+                </IconButton>
+              </Fragment>
+            }
+          />
+        </div>
+
+        <div>
+          <Snackbar
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
+            open={lowInventory}
+            autoHideDuration={3000}
+            onClose={handleClose}
+            message={`Sorry there are only ${inventoryCount} in stock.`}
+            action={
+              <Fragment>
+                <IconButton
+                  size="small"
+                  aria-label="close"
+                  color="inherit"
+                  onClick={handleClose}
+                >
+                  <CloseIcon fontSize="small" />
+                </IconButton>
+              </Fragment>
+            }
+          />
         </div>
       </div>
     )
