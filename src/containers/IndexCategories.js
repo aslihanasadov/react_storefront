@@ -6,7 +6,7 @@ const IndexCategories = (props) => {
   const [allCategories, setAllCategories] = useState([])
   const [allProducts, setAllProducts] = useState([])
   const [searchTerm, setSearchTerm] = useState("")
-  const [searchResults, setSearchResults] = useState([])
+  const [categorySearchResults, setCategorySearchResults] = useState([])
   const [productSearchResults, setProductSearchResults] = useState([])
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const IndexCategories = (props) => {
       })
       .then((json) => {
         setAllCategories(json)
-        setSearchResults(json)
+        setCategorySearchResults(json)
       })
       .catch((error) => {
         console.log(error)
@@ -68,15 +68,13 @@ const IndexCategories = (props) => {
     const categoryResults = allCategories.filter((category) =>
       category.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
-
-    setSearchResults(categoryResults)
+    setCategorySearchResults(categoryResults)
   }, [searchTerm])
 
   useEffect(() => {
     const productResults = allProducts.filter((product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
-
     setProductSearchResults(productResults)
   }, [searchTerm])
 
@@ -84,7 +82,7 @@ const IndexCategories = (props) => {
     setSearchTerm(event.currentTarget.value)
   }
 
-  const listCategoryResults = searchResults.map((category) => {
+  const listCategoryResults = categorySearchResults.map((category) => {
     return (
       <CategoriesTile key={category.id} id={category.id} name={category.name} />
     )
