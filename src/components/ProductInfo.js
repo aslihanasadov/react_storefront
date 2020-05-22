@@ -1,7 +1,15 @@
-import React, { useState } from "react"
+import React, { useState, Fragment } from "react"
+import Snackbar from "@material-ui/core/Snackbar"
+import IconButton from "@material-ui/core/IconButton"
+import CloseIcon from "@material-ui/icons/Close"
+import MuiAlert from "@material-ui/lab/Alert"
+import { makeStyles } from "@material-ui/core/styles"
 
 const ProductInfo = (props) => {
   const [quantity, setQuantity] = useState(1)
+  const [addItem, setAddItem] = useState(false)
+  const [alreadyAdded, setAlreadyAdded] = useState(false)
+  const [lowInventory, setLowInventory] = useState(false)
 
   let purchaseButton
   let name
@@ -17,6 +25,21 @@ const ProductInfo = (props) => {
     inventoryCount = props.product.inventory_count
   }
 
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />
+  }
+
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      width: "100%",
+      "& > * + *": {
+        marginTop: theme.spacing(2),
+      },
+    },
+  }))
+
+  const classes = useStyles()
+
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -28,9 +51,16 @@ const ProductInfo = (props) => {
   const purchase = (event) => {
     event.preventDefault()
     if (quantity <= inventoryCount) {
-      props.addToCart(props.product.id, quantity)
+      let name = props.product.id
+      let match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"))
+      if (match) {
+        setAlreadyAdded(true)
+      } else {
+        props.addToCart(props.product.id, quantity)
+        setAddItem(true)
+      }
     } else {
-      alert(`Sorry there are only ${inventoryCount} available at this time`)
+      setLowInventory(true)
     }
   }
 
@@ -53,6 +83,15 @@ const ProductInfo = (props) => {
   }
   const handleInputChange = (event) => {
     setQuantity(event.currentTarget.value)
+  }
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return
+    }
+    setAddItem(false)
+    setAlreadyAdded(false)
+    setLowInventory(false)
   }
 
   if (props.product) {
@@ -79,6 +118,45 @@ const ProductInfo = (props) => {
               </div>
             </div>
           </form>
+        </div>
+
+        <div className={classes.root}>
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={addItem}
+            autoHideDuration={3000}
+            onClose={handleClose}
+          >
+            <Alert onClose={handleClose} severity="success">
+              {name} added to cart!
+            </Alert>
+          </Snackbar>
+        </div>
+
+        <div className={classes.root}>
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={alreadyAdded}
+            autoHideDuration={3000}
+            onClose={handleClose}
+          >
+            <Alert onClose={handleClose} severity="warning">
+              This item is already in your cart
+            </Alert>
+          </Snackbar>
+        </div>
+
+        <div className={classes.root}>
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={lowInventory}
+            autoHideDuration={3000}
+            onClose={handleClose}
+          >
+            <Alert onClose={handleClose} severity="error">
+              Sorry there are only {inventoryCount} left in stock
+            </Alert>
+          </Snackbar>
         </div>
       </div>
     )

@@ -1,7 +1,14 @@
 import React, { useState } from "react"
+import Dialog from "@material-ui/core/Dialog"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
+import DialogContentText from "@material-ui/core/DialogContentText"
+import DialogTitle from "@material-ui/core/DialogTitle"
+import Button from "@material-ui/core/Button"
 
 const ShoppingCartItem = (props) => {
   const [newQuantity, setNewQuantity] = useState("")
+  const [open, setOpen] = useState(false)
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -26,34 +33,125 @@ const ShoppingCartItem = (props) => {
     setNewQuantity(event.currentTarget.value)
   }
 
-  let formattedPrice = formatter.format(props.product.price)
+  const deleteProduct = (event) => {
+    event.preventDefault()
+    openDialog()
+  }
+
+  const accept = () => {
+    setOpen(false)
+    remove()
+  }
+
+  const cancel = () => {
+    setOpen(false)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  const openDialog = () => {
+    setOpen(true)
+  }
+
+  let formattedPrice = formatter.format(props.product.price * props.quantity)
 
   return (
     <div>
-      <h2>{props.product.name}</h2>
-      <p>Quantity: {props.quantity}</p>
-      <p>{formattedPrice}</p>
-      <img src={props.product.image_url} width="100" height="100" />
-      <button type="button" className="button hollow alert" onClick={remove}>
-        Remove
-      </button>
-      <div className="row">
-        <div className="large-2 medium-3 small-3 columns end">
-          <form>
-            <label htmlFor="quantity">Update Quantity:</label>
-            <input
-              type="number"
-              step="1"
-              name="quantity"
-              id="quantity"
-              onChange={handleInputChange}
-            ></input>
-          </form>
+      <div className="travel-feature-card">
+        <div className="travel-feature-card-header">
+          <div className="row">
+            <div className="medium-12 columns">
+              <h5 className="travel-feature-card-subtitle">
+                {props.product.name}
+              </h5>
+              <div className="travel-feature-card-header-controls">
+                <span>
+                  <a href="#">
+                    <i className="fa fa-remove" onClick={deleteProduct}></i>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="travel-feature-card-details">
+          <h6 className="travel-feature-card-date-range"></h6>
+
+          <div className="row">
+            <div className="small-12 medium-9 columns travel-feature-card-content">
+              <div className="row">
+                <div className="small-4 medium-2 columns">
+                  <img
+                    className="travel-feature-card-image"
+                    src={props.product.image_url}
+                    alt={props.product.name}
+                  />
+                </div>
+                <div className="small-8 medium-10 columns">
+                  <p>{props.product.description}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="small-12 medium-3 columns travel-feature-card-price">
+              <h6>{formattedPrice}</h6>
+              <p className="travel-feature-card-price-subtext">
+                Quantity: {props.quantity}
+              </p>
+              <form>
+                <label htmlFor="quantity">Update Quantity:</label>
+
+                <input
+                  type="number"
+                  step="1"
+                  className="quantity"
+                  id="quantity"
+                  defaultValue={props.quantity}
+                  onChange={handleInputChange}
+                />
+
+                <button
+                  type="button"
+                  className="button hollow success"
+                  onClick={update}
+                >
+                  Update Quantity
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
-      <button type="button" className="button hollow success" onClick={update}>
-        Update Quantity
-      </button>
+
+      <div>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Remove from Cart"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Are you sure you want to remove {props.product.name} from your
+              cart?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={cancel} color="primary">
+              No
+            </Button>
+            <Button onClick={accept} color="primary">
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
     </div>
   )
 }
