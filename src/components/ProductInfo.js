@@ -2,6 +2,8 @@ import React, { useState, Fragment } from "react"
 import Snackbar from "@material-ui/core/Snackbar"
 import IconButton from "@material-ui/core/IconButton"
 import CloseIcon from "@material-ui/icons/Close"
+import MuiAlert from "@material-ui/lab/Alert"
+import { makeStyles } from "@material-ui/core/styles"
 
 const ProductInfo = (props) => {
   const [quantity, setQuantity] = useState(1)
@@ -23,6 +25,21 @@ const ProductInfo = (props) => {
     inventoryCount = props.product.inventory_count
   }
 
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />
+  }
+
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      width: "100%",
+      "& > * + *": {
+        marginTop: theme.spacing(2),
+      },
+    },
+  }))
+
+  const classes = useStyles()
+
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -34,11 +51,13 @@ const ProductInfo = (props) => {
   const purchase = (event) => {
     event.preventDefault()
     if (quantity <= inventoryCount) {
-      if (document.cookie.indexOf(props.product.id) == -1) {
+      let name = props.product.id
+      let match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"))
+      if (match) {
+        setAlreadyAdded(true)
+      } else {
         props.addToCart(props.product.id, quantity)
         setAddItem(true)
-      } else {
-        setAlreadyAdded(true)
       }
     } else {
       setLowInventory(true)
@@ -101,79 +120,43 @@ const ProductInfo = (props) => {
           </form>
         </div>
 
-        <div>
+        <div className={classes.root}>
           <Snackbar
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "center",
-            }}
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
             open={addItem}
             autoHideDuration={3000}
             onClose={handleClose}
-            message={"Added to cart!"}
-            action={
-              <Fragment>
-                <IconButton
-                  size="small"
-                  aria-label="close"
-                  color="inherit"
-                  onClick={handleClose}
-                >
-                  <CloseIcon fontSize="small" />
-                </IconButton>
-              </Fragment>
-            }
-          />
+          >
+            <Alert onClose={handleClose} severity="success">
+              {name} added to cart!
+            </Alert>
+          </Snackbar>
         </div>
 
-        <div>
+        <div className={classes.root}>
           <Snackbar
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "center",
-            }}
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
             open={alreadyAdded}
             autoHideDuration={3000}
             onClose={handleClose}
-            message={"This item is already in your cart!"}
-            action={
-              <Fragment>
-                <IconButton
-                  size="small"
-                  aria-label="close"
-                  color="inherit"
-                  onClick={handleClose}
-                >
-                  <CloseIcon fontSize="small" />
-                </IconButton>
-              </Fragment>
-            }
-          />
+          >
+            <Alert onClose={handleClose} severity="warning">
+              This item is already in your cart
+            </Alert>
+          </Snackbar>
         </div>
 
-        <div>
+        <div className={classes.root}>
           <Snackbar
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "center",
-            }}
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
             open={lowInventory}
             autoHideDuration={3000}
             onClose={handleClose}
-            message={`Sorry there are only ${inventoryCount} in stock.`}
-            action={
-              <Fragment>
-                <IconButton
-                  size="small"
-                  aria-label="close"
-                  color="inherit"
-                  onClick={handleClose}
-                >
-                  <CloseIcon fontSize="small" />
-                </IconButton>
-              </Fragment>
-            }
-          />
+          >
+            <Alert onClose={handleClose} severity="error">
+              Sorry there are only {inventoryCount} left in stock
+            </Alert>
+          </Snackbar>
         </div>
       </div>
     )
