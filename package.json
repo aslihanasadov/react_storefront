@@ -11,10 +11,10 @@
     "test": "./node_modules/.bin/jest",
     "db:import": "psql react_storefront < db/schema.sql",
     "db:seed": "psql react_storefront < db/seed.sql",
-    "start": "node server.js"
+    "start": "node server/server.js"
   },
   "engines": {
-    "node": "12.16.x",
+    "node": "12.14.x",
     "yarn": "1.x"
   },
   "author": "",
