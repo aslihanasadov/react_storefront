@@ -10,11 +10,13 @@
     "webpack": "node_modules/.bin/webpack --config ./webpack.config.js",
     "test": "./node_modules/.bin/jest",
     "db:import": "psql react_storefront < db/schema.sql",
-    "db:seed": "psql react_storefront < db/seed.sql"
+    "db:seed": "psql react_storefront < db/seed.sql",
+    "start": "node server.js"
   },
   "engines": {
     "node": "12.16.x",
-    "yarn": "1.x"},
+    "yarn": "1.x"
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
