@@ -93,15 +93,14 @@ app.post("/api/v1/new_product", (req, res) => {
     name,
     description,
     price,
-    inventoryCount,
-    imageUrl,
+    inventory_count,
+    image_url,
     categoryId,
   } = req.body
-
   pool
     .query(
       "INSERT INTO products(name, description, price, inventory_count, image_url, category_id) VALUES($1, $2, $3, $4, $5, $6)",
-      [name, description, price, inventoryCount, imageUrl, categoryId]
+      [name, description, price, inventory_count, image_url, categoryId]
     )
     .then((result) => {
       return res.json(result.rows)
