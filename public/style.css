@@ -25,6 +25,10 @@
 
 /* shopping cart */
 
+.hidden {
+  display: none;
+}
+
 .travel-feature-card-header {
   margin-top: 30px;
   background-color: #56524b;
