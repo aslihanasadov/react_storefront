@@ -12,6 +12,7 @@ const ProductInfo = (props) => {
   const [lowInventory, setLowInventory] = useState(false)
 
   let purchaseButton
+  let available
   let name
   let description
   let price
@@ -65,6 +66,7 @@ const ProductInfo = (props) => {
   }
 
   if (inventoryCount > 0) {
+    available = `${inventoryCount} available`
     purchaseButton = (
       <button
         type="button"
@@ -105,6 +107,7 @@ const ProductInfo = (props) => {
           <form>
             <div className="row">
               <div className="large-2 medium-3 small-3 columns end">
+                <label>{available}</label>
                 <label htmlFor="quantity">Quantity: </label>
                 <input
                   type="number"
