@@ -92,21 +92,21 @@ const AddProductForm = props => {
         </div>
         <div className="small-12 medium-6 columns">
             <label>Price</label>
-            <input name="price" id="price" type="text" onChange={handleChange} value={newForm.name} />
+            <input name="price" id="price" type="text" onChange={handleChange} value={newForm.price} />
         </div>
         <div className="small-12 medium-6 columns">
             <label>Description</label>
-            <input name="description" id="description" type="text" onChange={handleChange} value={newForm.name} />
+            <input name="description" id="description" type="text" onChange={handleChange} value={newForm.description} />
         </div>
         <div className="small-12 medium-6 columns">
             <label>Image</label>
-            <input name="image_url" id="image_url" type="text" onChange={handleChange} value={newForm.name} />
-        </div>
-        <div className="small-12 columns">
+            <input name="image_url" id="image_url" type="text" onChange={handleChange} value={newForm.image_url} />
+      </div>
+           <div className="small-12 columns">
               <input name="button" type="submit" className="button" />
             </div>
-        </div>
-        </div>
+      </div>
+      </div>
     )
 }
 export default AddProductForm
