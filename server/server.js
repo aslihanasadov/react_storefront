@@ -22,7 +22,6 @@ app.set("view engine", "hbs")
 
 app.use(logger("dev"))
 app.use(express.json())
-
 app.use(express.static(path.join(__dirname, "../public")))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
@@ -31,7 +30,6 @@ const { Pool } = require("pg")
 
 const pool = new Pool({
   connectionString:
-    process.env.DATABASE_URL ||
     "postgres://postgres:password@127.0.0.1:5432/react_storefront",
 })
 
@@ -87,6 +85,23 @@ app.get("/api/v1/products/:id", (req, res) => {
     .catch((error) => {
       console.log(error)
     })
+})
+
+app.post("/api/v1/purchase", (req, res) => {
+  let products = req.body
+  products.forEach((product) => {
+    pool
+      .query(
+        "UPDATE products SET inventory_count = inventory_count - $1 WHERE id = $2",
+        [product.quantity, product.productId]
+      )
+      .then((result) => {
+        return res.json(result.rows)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  })
 })
 
 app.post("/api/v1/new_product", (req, res) => {
