@@ -119,9 +119,11 @@ app.post("/api/v1/new_product", (req, res) => {
       [name, description, price, inventory_count, image_url, categoryId]
     )
     .then((result) => {
+      debugger
       return res.json(result.rows)
     })
     .catch((error) => {
+      debugger
       console.log(error)
     })
 })
