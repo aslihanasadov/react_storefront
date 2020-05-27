@@ -93,7 +93,7 @@ const PurchaseForm = (props) => {
             className="callout form-format"
             onSubmit={handleSubmit}
           >
-            <h3>Enter Shipping information for complete your purchase</h3>
+            <h3>Enter Shipping information to complete your purchase</h3>
             <div>
               <label htmlFor="firstName">First Name: </label>
               <input
