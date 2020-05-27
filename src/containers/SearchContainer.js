@@ -1,6 +1,4 @@
 import React, { Fragment, useState, useEffect } from "react"
-import CategoriesTile from "../components/CategoriesTile"
-import ProductTile from "../components/ProductTile"
 import SearchResult from "../components/SearchResult"
 
 const SearchContainer = (props) => {
