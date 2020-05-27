@@ -13,7 +13,9 @@ const HotItems = props => {
                 <Link to={`/store/${name}/${id}`}>
                     <img src={image_url} alt={name} height="100" width="100" />
                 </Link>
-                <Link to={`/store/${props.category}/${id}`}>{category_id}</Link>
+                <span>Category:
+                    <Link to={`/store/${props.category}/${id}`}>{category_id}</Link>
+                </span>
             </div>
         </>
     )

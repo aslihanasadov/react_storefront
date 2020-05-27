@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import HotItems from "../components/HotItems";
+import SliderContainer from "../containers/SliderContainer"
 
 const HotItemsTile = props => {
 
@@ -26,41 +27,52 @@ const HotItemsTile = props => {
         console.log(error)
       })
   }, [])
-  // console.log(hotItems);
+  // console.table(hotItems);
 
-//    let hotItemsArr = [];
-//     hotItems.category_id.forEach(category => {
-//       let categoriesArr = [];
-//       hotItems.forEach(hotItem => {
-//         if(hotItem.category_id === category.id) {
-//           categoriesArr.push(hotItem);
-//         }
-//       });
-//       categoriesArr.sort(() => Math.random() - 0.5);
-//       hotItemsArr.push(categoriesArr[0]);
-//     });
-//   
-//   console.log(hotItemsArr);
+    let hotItemsArr = [];
+    hotItems.map(category => {
+      let categoriesArr = [];
+      hotItems.map(hotItem => {
+        if(hotItem.category_id === category.id) {
+          categoriesArr.push(hotItem);
+        }
+      });
+      categoriesArr.sort(() => Math.random() - 0.5);
+      hotItemsArr.push(categoriesArr[0]);
+    });
+    let finalHotItems = []
+    for(let i = 0; i < 4; i++) {
+      let item = hotItemsArr.shift()
+      finalHotItems.push(item)
+    }
 
+  console.log(finalHotItems)
+     
   const mapHotItems = hotItems.map(hotItem => {
     return (
       <HotItems
       key={hotItem.id}
-      productName={hotItem.name} 
-      imgUrl={hotItem.image_url}
-      category={hotItem.category_id}
       item={hotItem}
+      // hotItem={hotItemsArr} 
       />
-      
     )
   })
 
-  return (
-    <>
+  if(finalHotItems[0] != undefined) {
+
+    return (
+      <>
       <h2>Hot Items!</h2>
-      {mapHotItems}
+      {/* {mapHotItems} */}
+      <SliderContainer 
+        products={finalHotItems}
+        // category={props.category.name}
+        />
     </>
   )
+  } else {
+    return ""
+  }
 }
 
 export default HotItemsTile
