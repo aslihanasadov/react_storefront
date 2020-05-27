@@ -1,40 +1,50 @@
 import React, { useState } from "react"
-
+import { Redirect } from "react-router-dom"
+import { json } from "body-parser"
 const AddProductForm = props => {
     const defaultForm = {
         name:"",
         category:"",
         price:"",
         description:"",
-        image_url:""
+        image_url:"",
+        count:""
     }
-
     const [newForm, setNewForm] = useState(defaultForm)
-    const [message, setMessage] = useState("")
-
+    const [toHome, setToHome] = useState(false)
     const handleChange = event => {
-       setNewForm({
-           ...newForm, 
-           [event.currentTarget.id]: event.currentTarget.value
-       }) 
+      setNewForm({
+          ...newForm, 
+          [event.currentTarget.id]: event.currentTarget.value
+      }) 
     }
-
+    let newId;
     const handleSubmit = event => {
         event.preventDefault()
+        let category;
+        if(newForm.category==="tops"){
+          category=1
+      } if (newForm.category === "bottoms") {
+        category = 2
+      } if (newForm.category === "sportsBras") {
+        category = 3
+      } if (newForm.category === "shoes") {
+        category = 4
+      }
         let formPayload = {
             name: newForm.name,
-            category:newForm.category,
+            categoryId: category,
             price: newForm.price,
             description: newForm.description,
             image_url:newForm.image_url,
-            inventoryCount: 5 
+            inventory_count: newForm.count
         }
-
+        console.log(formPayload)
             fetch(`/api/v1/new_product`, {
                 method: "POST",
-                body: JSON.stringify(formPayLoad),
+                body: JSON.stringify(formPayload),
                 headers: { "Content-Type": "application/json" }
-            }) 
+            })
               .then((response) => {
                 if (response.ok) {
                   return response
@@ -47,32 +57,27 @@ const AddProductForm = props => {
               .then((result) => {
                 return result.json()
               })
-              .then((json) => {
-                setPark(json)
+              .then((json)=>{
+                setToHome(true)
               })
               .catch((error) => {
                 console.log(error)
               })
-        
-        props.setShowForm(false)
-        setNewForm(defaultForm)
-        setMessage("Thank you for purchase")
     }
-
     return(
         <div>
             <br></br>
             <br></br>
             <br></br>
         <div>
-        <form onSubmit={handleSubmit}></form>
+          <form onSubmit={handleSubmit}>
         <div className="small-12 medium-6 columns">
             <label>Name</label>
-            <input name="name" id="name" type="text" onChange={handleChange} value={newForm.name} />
+              <input name="name" id="name" type="text" onChange={handleChange} value={newForm.name} />
         </div>
         <div className="small-12 medium-6 columns">
             <label>Category</label>
-            <select name="category" id="category" value={newForm.category} onChange={handleChange}>
+              <select name="category" id="category" onChange={handleChange} value={newForm.category}>
         <option type="text" value="">
           -
         </option>
@@ -86,25 +91,33 @@ const AddProductForm = props => {
           Sports Bras
         </option>
         <option type="text" value="shoes">
-         Shoes
+          Shoes
         </option>  
       </select>
         </div>
         <div className="small-12 medium-6 columns">
             <label>Price</label>
-            <input name="price" id="price" type="text" onChange={handleChange} value={newForm.name} />
+              <input name="price" id="price" type="text" onChange={handleChange} value={newForm.price} />
         </div>
         <div className="small-12 medium-6 columns">
             <label>Description</label>
-            <input name="description" id="description" type="text" onChange={handleChange} value={newForm.name} />
+              <input name="description" id="description" type="text" onChange={handleChange} value={newForm.description} />
         </div>
         <div className="small-12 medium-6 columns">
             <label>Image</label>
-            <input name="image_url" id="image_url" type="text" onChange={handleChange} value={newForm.name} />
+              <input name="image_url" id="image_url" type="text" onChange={handleChange} value={newForm.image_url} />
+        </div>
+        <div className="small-12 medium-6 columns">
+            <label>Count</label>
+              <input name="count" id="count" type="number" onChange={handleChange} value={newForm.count} />
         </div>
         <div className="small-12 columns">
-              <input name="button" type="submit" className="button" />
-            </div>
+          <input name="button" type="submit" className="button" value="Submit Your Item" />
+        </div>
+        </form>
+        </div>
+        <div>
+          {toHome ? <Redirect to={`/`} /> : null}
         </div>
         </div>
     )
