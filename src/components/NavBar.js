@@ -5,6 +5,7 @@ import ProductIndex from "../containers/ProductIndex"
 import ProductShow from "../containers/ProductShowContainer"
 import ShoppingCartContainer from "../containers/ShoppingCartContainer"
 import IndexCategories from "../containers/IndexCategories"
+import SearchContainer from "../containers/SearchContainer"
 
 const NavBar = (props) => {
   return (
@@ -52,6 +53,8 @@ const NavBar = (props) => {
           </div>
         </div>
       </nav>
+
+      <SearchContainer />
 
       <div className="paths">
         <Switch>
