@@ -113,19 +113,24 @@ app.post("/api/v1/new_product", (req, res) => {
     image_url,
     categoryId,
   } = req.body
-  pool
-    .query(
-      "INSERT INTO products(name, description, price, inventory_count, image_url, category_id) VALUES($1, $2, $3, $4, $5, $6)",
-      [name, description, price, inventory_count, image_url, categoryId]
-    )
-    .then((result) => {
-      debugger
-      return res.json(result.rows)
-    })
-    .catch((error) => {
-      debugger
-      console.log(error)
-    })
+  pool.connect().then((client) => {
+    client
+      .query(
+        "INSERT INTO products(name, description, price, inventory_count, image_url, category_id) VALUES($1, $2, $3, $4, $5, $6)",
+        [name, description, price, inventory_count, image_url, categoryId]
+      )
+      .then((result) => {
+        client
+          .query("SELECT * FROM products ORDER BY id DESC LIMIT 1")
+          .then((product) => {
+            client.release()
+            res.json(product.rows)
+          })
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  })
 })
 
 //Express Routes

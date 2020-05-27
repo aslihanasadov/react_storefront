@@ -12,6 +12,7 @@ const AddProductForm = (props) => {
   }
   const [newForm, setNewForm] = useState(defaultForm)
   const [toHome, setToHome] = useState(false)
+  const [newProductId, setNewProductId] = useState(0)
   const handleChange = (event) => {
     setNewForm({
       ...newForm,
@@ -58,11 +59,10 @@ const AddProductForm = (props) => {
         }
       })
       .then((result) => {
-        debugger
         return result.json()
       })
       .then((json) => {
-        debugger
+        setNewProductId(json[0].id)
         setToHome(true)
       })
       .catch((error) => {
@@ -163,7 +163,9 @@ const AddProductForm = (props) => {
         </form>
       </div>
       <div>
-        {toHome ? <Redirect to={`/store/${newForm.category}/`} /> : null}
+        {toHome ? (
+          <Redirect to={`/store/${newForm.category}/${newProductId}`} />
+        ) : null}
       </div>
     </div>
   )
