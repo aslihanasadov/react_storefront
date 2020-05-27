@@ -93,6 +93,13 @@ const ShoppingCartContainer = (props) => {
 
   return (
     <div>
+      <div>
+        <PurchaseForm
+          reveal={purchase}
+          removeAllCookies={removeAllCookies}
+          cookies={cookies}
+        />
+      </div>
       {productsInCart}
       <div className="cart-total">
         <h2>Order Total: {formatter.format(total)}</h2>
@@ -103,13 +110,6 @@ const ShoppingCartContainer = (props) => {
         >
           Complete Purchase
         </button>
-      </div>
-      <div>
-        <PurchaseForm
-          reveal={purchase}
-          removeAllCookies={removeAllCookies}
-          cookies={cookies}
-        />
       </div>
     </div>
   )
