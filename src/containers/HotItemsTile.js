@@ -53,12 +53,6 @@ const HotItemsTile = (props) => {
     }
   })
 
-  let finalHotItems = []
-  for (let i = 0; i < 4; i++) {
-    let item = hotItemsArr.shift()
-    finalHotItems.push(item)
-  }
-
   if (finalItems[0] != undefined) {
     return (
       <>
