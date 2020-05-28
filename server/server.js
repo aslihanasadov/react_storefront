@@ -49,7 +49,7 @@ app.get("/api/v1/categories", (req, res) => {
   pool
     .connect()
     .then((client) => {
-      client.query("SELECT * FROM categories").then((result) => {
+      client.query("SELECT * FROM categories ORDER BY id").then((result) => {
         const categories = result.rows
         client.release()
         res.json(categories)
@@ -75,7 +75,7 @@ app.get("/api/v1/:category", (req, res) => {
   let category = req.params.category
   pool
     .query(
-      "SELECT products.* FROM categories JOIN products ON products.category_id = categories.id WHERE categories.name = $1",
+      "SELECT products.* FROM categories JOIN products ON products.category_id = categories.id WHERE categories.name = $1 ORDER BY products.id",
       [category]
     )
     .then((result) => {

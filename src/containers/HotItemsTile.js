@@ -5,7 +5,7 @@ const HotItemsTile = (props) => {
   const [hotItems, setHotItems] = useState([])
 
   useEffect(() => {
-    fetch(`/api/v1/products`)
+    fetch(`/api/v1/hot_items`)
       .then((response) => {
         if (response.ok) {
           return response
@@ -38,17 +38,32 @@ const HotItemsTile = (props) => {
     hotItemsArr.push(categoriesArr[0])
   })
 
+  let finalItems = []
+  let randomItems = hotItems.sort(() => Math.random() - 0.5)
+
+  hotItems.forEach((item) => {
+    let cat = randomItems.filter(
+      (product) => product.category_id === item.category_id
+    )
+    if (
+      finalItems.filter((category) => category.category_id === item.category_id)
+        .length === 0
+    ) {
+      finalItems.push(cat[0])
+    }
+  })
+
   let finalHotItems = []
   for (let i = 0; i < 4; i++) {
     let item = hotItemsArr.shift()
     finalHotItems.push(item)
   }
 
-  if (finalHotItems[0] != undefined) {
+  if (finalItems[0] != undefined) {
     return (
       <>
         <h2>Hot Items!</h2>
-        <SliderContainer products={finalHotItems} />
+        <SliderContainer products={finalItems} />
       </>
     )
   } else {
