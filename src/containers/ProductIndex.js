@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, Fragment } from "react"
 import ProductTile from "../components/ProductTile"
 
 const ProductIndex = (props) => {
   const [list, setList] = useState([])
   const category = props.match.params.category
+
 
   useEffect(() => {
     fetch(`/api/v1/${category}`)
@@ -30,9 +31,10 @@ const ProductIndex = (props) => {
   const listByProdCat = list.map((product) => {
     return (
       <ProductTile key={product.id} product={product} category={category} />
-    )
-  })
+      )
+    })
 
+    
   return (
     <div>
       <div>

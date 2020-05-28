@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react"
 import CategoriesTile from "../components/CategoriesTile"
+import HotItemsTile from "./HotItemsTile"
 
 const IndexCategories = (props) => {
   const [allCategories, setAllCategories] = useState([])
@@ -25,7 +26,6 @@ const IndexCategories = (props) => {
       })
       .then((json) => {
         setAllCategories(json)
-        setCategorySearchResults(json)
       })
       .catch((error) => {
         console.log(error)
@@ -38,10 +38,10 @@ const IndexCategories = (props) => {
     )
   })
 
-
   return (
     <Fragment>
       <div>
+        <HotItemsTile />
       </div>
       <h2>What are you looking for today?</h2>
       <div>{listCategoryResults}</div>

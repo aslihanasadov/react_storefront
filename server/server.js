@@ -36,7 +36,7 @@ const pool = new Pool({
 // Express routes
 app.get("/api/v1/products", (req, res) => {
   pool
-    .query("SELECT * FROM products")
+    .query("SELECT * FROM products ORDER BY id")
     .then((result) => {
       return res.json(result.rows)
     })
@@ -49,7 +49,7 @@ app.get("/api/v1/categories", (req, res) => {
   pool
     .connect()
     .then((client) => {
-      client.query("SELECT * FROM categories").then((result) => {
+      client.query("SELECT * FROM categories ORDER BY id").then((result) => {
         const categories = result.rows
         client.release()
         res.json(categories)
@@ -60,11 +60,22 @@ app.get("/api/v1/categories", (req, res) => {
     })
 })
 
+app.get("/api/v1/hot_items", (req, res) => {
+  pool
+    .query("SELECT * FROM products WHERE inventory_count > 0")
+    .then((result) => {
+      return res.json(result.rows)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+})
+
 app.get("/api/v1/:category", (req, res) => {
   let category = req.params.category
   pool
     .query(
-      "SELECT products.* FROM categories JOIN products ON products.category_id = categories.id WHERE categories.name = $1",
+      "SELECT products.* FROM categories JOIN products ON products.category_id = categories.id WHERE categories.name = $1 ORDER BY products.id",
       [category]
     )
     .then((result) => {
@@ -87,6 +98,22 @@ app.get("/api/v1/products/:id", (req, res) => {
     })
 })
 
+app.get("/api/v1/hotItems", (req, res) => {
+  pool
+    .connect()
+    .then((client) => {
+      client
+        .query("SELECT * FROM products ORDER BY category_id, RANDOM() LIMIT 3")
+        .then((result) => {
+          const products = result.rows
+          client.release()
+          res.json(products)
+        })
+    })
+    .catch((error) => {
+      console.log("ERROR =====> ", error)
+    })
+})
 app.post("/api/v1/purchase", (req, res) => {
   let products = req.body
   products.forEach((product) => {

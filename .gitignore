@@ -8,3 +8,10 @@ yarn.lock
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.idea/.gitignore
+.idea/codeStyles
+.idea/dbnavigator.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/react_storefront.iml
+.idea/vcs.xml
