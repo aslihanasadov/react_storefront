@@ -26,18 +26,6 @@ const HotItemsTile = (props) => {
       })
   }, [])
 
-  let hotItemsArr = []
-  hotItems.map((category) => {
-    let categoriesArr = []
-    hotItems.map((hotItem) => {
-      if (hotItem.category_id === category.id) {
-        categoriesArr.push(hotItem)
-      }
-    })
-    categoriesArr.sort(() => Math.random() - 0.5)
-    hotItemsArr.push(categoriesArr[0])
-  })
-
   let finalItems = []
   let randomItems = hotItems.sort(() => Math.random() - 0.5)
 
