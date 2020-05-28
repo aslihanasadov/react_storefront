@@ -10,7 +10,12 @@
     "webpack": "node_modules/.bin/webpack --config ./webpack.config.js",
     "test": "./node_modules/.bin/jest",
     "db:import": "psql react_storefront < db/schema.sql",
-    "db:seed": "psql react_storefront < db/seed.sql"
+    "db:seed": "psql react_storefront < db/seed.sql",
+    "start": "node server/server.js"
+  },
+  "engines": {
+    "node": "12.14.x",
+    "yarn": "1.x"
   },
   "author": "",
   "license": "ISC",
@@ -38,6 +43,9 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
+    "@material-ui/core": "^4.9.14",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.53",
     "body-parser": "^1.19.0",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.2",

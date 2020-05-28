@@ -26,7 +26,7 @@ const ProductIndex = (props) => {
       .catch((error) => {
         console.log(error)
       })
-  }, [])
+  }, [category])
 
   const listByProdCat = list.map((product) => {
     return (

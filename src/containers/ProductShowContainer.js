@@ -30,7 +30,7 @@ const ProductShow = (props) => {
       .catch((error) => {
         console.log(error)
       })
-  }, [])
+  }, [props.match.params.id])
 
   return (
     <div>

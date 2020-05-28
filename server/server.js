@@ -22,7 +22,6 @@ app.set("view engine", "hbs")
 
 app.use(logger("dev"))
 app.use(express.json())
-
 app.use(express.static(path.join(__dirname, "../public")))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
@@ -49,17 +48,17 @@ app.get("/api/v1/products", (req, res) => {
 app.get("/api/v1/categories", (req, res) => {
   pool
     .connect()
-    .then(client => {
-      client.query("SELECT * FROM categories").then(result => {
-        const categories = result.rows;
-        client.release();
-        res.json(categories);
-      });
+    .then((client) => {
+      client.query("SELECT * FROM categories").then((result) => {
+        const categories = result.rows
+        client.release()
+        res.json(categories)
+      })
     })
-    .catch(error => {
-      console.log("ERROR =====> ", error);
-    });
-});
+    .catch((error) => {
+      console.log("ERROR =====> ", error)
+    })
+})
 
 app.get("/api/v1/:category", (req, res) => {
   let category = req.params.category
@@ -102,28 +101,50 @@ app.get("/api/v1/hotItems", (req, res) => {
         console.log("ERROR =====> ", error);
       });
   });
+app.post("/api/v1/purchase", (req, res) => {
+  let products = req.body
+  products.forEach((product) => {
+    pool
+      .query(
+        "UPDATE products SET inventory_count = inventory_count - $1 WHERE id = $2",
+        [product.quantity, product.productId]
+      )
+      .then((result) => {
+        return res.json(result.rows)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  })
+})
 
 app.post("/api/v1/new_product", (req, res) => {
   const {
     name,
     description,
     price,
-    inventoryCount,
-    imageUrl,
+    inventory_count,
+    image_url,
     categoryId,
   } = req.body
-
-  pool
-    .query(
-      "INSERT INTO products(name, description, price, inventory_count, image_url, category_id) VALUES($1, $2, $3, $4, $5, $6)",
-      [name, description, price, inventoryCount, imageUrl, categoryId]
-    )
-    .then((result) => {
-      return res.json(result.rows)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+  pool.connect().then((client) => {
+    client
+      .query(
+        "INSERT INTO products(name, description, price, inventory_count, image_url, category_id) VALUES($1, $2, $3, $4, $5, $6)",
+        [name, description, price, inventory_count, image_url, categoryId]
+      )
+      .then((result) => {
+        client
+          .query("SELECT * FROM products ORDER BY id DESC LIMIT 1")
+          .then((product) => {
+            client.release()
+            res.json(product.rows)
+          })
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  })
 })
 
 //Express Routes
