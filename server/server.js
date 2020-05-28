@@ -36,7 +36,7 @@ const pool = new Pool({
 // Express routes
 app.get("/api/v1/products", (req, res) => {
   pool
-    .query("SELECT * FROM products")
+    .query("SELECT * FROM products ORDER BY id")
     .then((result) => {
       return res.json(result.rows)
     })
