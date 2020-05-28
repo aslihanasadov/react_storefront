@@ -26,7 +26,6 @@ const IndexCategories = (props) => {
       })
       .then((json) => {
         setAllCategories(json)
-        setCategorySearchResults(json)
       })
       .catch((error) => {
         console.log(error)
@@ -39,15 +38,14 @@ const IndexCategories = (props) => {
     )
   })
 
-
   return (
-      <Fragment>
-        <div>
-          <HotItemsTile />
-        </div>
-        <h2>What are you looking for today?</h2>
-        <div>{mapCategories}</div>
-      </Fragment>
+    <Fragment>
+      <div>
+        <HotItemsTile />
+      </div>
+      <h2>What are you looking for today?</h2>
+      <div>{listCategoryResults}</div>
+    </Fragment>
   )
 }
 

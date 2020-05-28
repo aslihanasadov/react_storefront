@@ -60,6 +60,17 @@ app.get("/api/v1/categories", (req, res) => {
     })
 })
 
+app.get("/api/v1/hot_items", (req, res) => {
+  pool
+    .query("SELECT * FROM products WHERE inventory_count > 0")
+    .then((result) => {
+      return res.json(result.rows)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+})
+
 app.get("/api/v1/:category", (req, res) => {
   let category = req.params.category
   pool
@@ -89,18 +100,20 @@ app.get("/api/v1/products/:id", (req, res) => {
 
 app.get("/api/v1/hotItems", (req, res) => {
   pool
-      .connect()
-      .then(client => {
-        client.query("SELECT * FROM products ORDER BY category_id, RANDOM() LIMIT 3").then(result => {
-          const products = result.rows;
-          client.release();
-          res.json(products);
-        });
-      })
-      .catch(error => {
-        console.log("ERROR =====> ", error);
-      });
-  });
+    .connect()
+    .then((client) => {
+      client
+        .query("SELECT * FROM products ORDER BY category_id, RANDOM() LIMIT 3")
+        .then((result) => {
+          const products = result.rows
+          client.release()
+          res.json(products)
+        })
+    })
+    .catch((error) => {
+      console.log("ERROR =====> ", error)
+    })
+})
 app.post("/api/v1/purchase", (req, res) => {
   let products = req.body
   products.forEach((product) => {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import HotItemsSlide from "../components/HotItemsSlide"
 import Slider from "react-slick"
+
 const SliderContainer = (props) => {
   const [list, setList] = useState([])
 
@@ -8,20 +9,20 @@ const SliderContainer = (props) => {
     setList(props.products)
   }, [props])
 
-
-
   const allProducts = list.map((product) => {
     let category
-    if(product.category_id ===1) {
+    if (product.category_id === 1) {
       category = "tops"
-    } else if (product.category_id ===2 ) {
+    } else if (product.category_id === 2) {
       category = "bottoms"
     } else if (product.category_id === 3) {
-      category="sportsBras"
+      category = "sportsBras"
     } else if (product.category_id === 4) {
-      category="shoes"
+      category = "shoes"
     }
-    return <HotItemsSlide key={product.id} product={product} category={category}/>
+    return (
+      <HotItemsSlide key={product.id} product={product} category={category} />
+    )
   })
 
   return (
@@ -38,9 +39,8 @@ const SliderContainer = (props) => {
           >
             {allProducts}
           </Slider>
-          <br/>
-          <br/>
-          
+          <br />
+          <br />
         </div>
       </div>
     </div>
