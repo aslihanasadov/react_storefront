@@ -26,12 +26,19 @@ app.use(express.static(path.join(__dirname, "../public")))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
+let pg = require("pg")
+if (process.env.DATABASE_URL) {
+  pg.defaults.ssl = true
+}
+
+let connString =
+  process.env.DATABASE_URL ||
+  "postgres://postgres:password@127.0.0.1:5432/react_storefront"
+
 const { Pool } = require("pg")
 
 const pool = new Pool({
-  connectionString:
-    "postgres://postgres:password@127.0.0.1:5432/react_storefront" ||
-    process.env.DATABASE_URL,
+  connectionString: connString,
 })
 
 // Express routes
