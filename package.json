@@ -11,7 +11,8 @@
     "test": "./node_modules/.bin/jest",
     "db:import": "psql react_storefront < db/schema.sql",
     "db:seed": "psql react_storefront < db/seed.sql",
-    "start": "node server/server.js"
+    "start": "node server/server.js",
+    "build":"webpack"
   },
   "engines": {
     "node": "12.x",
