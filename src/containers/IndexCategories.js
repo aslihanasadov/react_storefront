@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react"
 import { Link } from "react-router-dom"
-import CategoriesTile from "../components/CategoriesTile"
 import HotItemsTile from "./HotItemsTile"
 
 const IndexCategories = (props) => {
@@ -42,7 +41,7 @@ const IndexCategories = (props) => {
               <img
                 src={`icons/${category.name}.png`}
                 alt=""
-                class="user-image"
+                className="user-image"
               />
             </Link>
           </div>
@@ -55,9 +54,7 @@ const IndexCategories = (props) => {
 
           <div className="card-user-button">
             <Link to={`/store/${category.name}`}>
-              <a href="#" className="hollow button">
-                VIEW PRODUCTS
-              </a>
+              <button className="hollow button">VIEW PRODUCTS </button>
             </Link>
           </div>
         </div>
