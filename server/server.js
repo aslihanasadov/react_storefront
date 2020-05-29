@@ -30,7 +30,8 @@ const { Pool } = require("pg")
 
 const pool = new Pool({
   connectionString:
-    "postgres://postgres:password@127.0.0.1:5432/react_storefront",
+    "postgres://postgres:password@127.0.0.1:5432/react_storefront" ||
+    process.env.DATABASE_URL,
 })
 
 // Express routes
