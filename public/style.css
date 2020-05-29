@@ -365,6 +365,27 @@ footer {
 
 /* hot item card */
 
+#border {
+  border: 2px solid #ffa07a;
+  margin: 0 25px 0 25px;
+}
+
+.hot-item-title {
+  text-align: center;
+  color: #ffa07a;
+}
+
+.hot-items-image {
+  width: 100%;
+  border-radius: 50%;
+}
+
+.center-image {
+  display: block;
+  margin: 0 auto;
+  width: 15%;
+}
+
 .product-card {
   text-align: center;
   background-color: #fefefe;

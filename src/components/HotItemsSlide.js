@@ -9,14 +9,16 @@ const HotItemSlide = (props) => {
   })
 
   let formattedPrice = formatter.format(props.product.price)
-  
+
   return (
     <div className="item-slider">
       <div className="product-card">
         <div className="product-card-thumbnail">
-          <Link to={`/store/${props.category}/${props.product.id}`}>
-            <img src={props.product.image_url} height="100" width="100" />
-          </Link>
+          <div className="center-image">
+            <Link to={`/store/${props.category}/${props.product.id}`}>
+              <img className="hot-items-image" src={props.product.image_url} />
+            </Link>
+          </div>
         </div>
 
         <h2 className="product-card-title">

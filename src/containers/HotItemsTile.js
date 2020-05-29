@@ -44,8 +44,10 @@ const HotItemsTile = (props) => {
   if (finalItems[0] != undefined) {
     return (
       <>
-        <h2>Hot Items!</h2>
-        <SliderContainer products={finalItems} />
+        <h2 className="hot-item-title">Hot Items!</h2>
+        <div id="border">
+          <SliderContainer products={finalItems} />
+        </div>
       </>
     )
   } else {
