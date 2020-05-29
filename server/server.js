@@ -32,7 +32,7 @@ if (process.env.DATABASE_URL) {
 }
 
 let connString =
-  process.env.DATABASE_URL ||
+  "postgres://uskonwqgxlyand:df7aae7604740c2dbb46e1b9475a89351ca88487001e3439f6f6bbccdc4c5706@ec2-54-165-36-134.compute-1.amazonaws.com:5432/dd99ks97p26dia" ||
   "postgres://postgres:password@127.0.0.1:5432/react_storefront"
 
 const { Pool } = require("pg")
@@ -40,6 +40,8 @@ const { Pool } = require("pg")
 const pool = new Pool({
   connectionString: connString,
 })
+
+console.log(process.env.DATABASE_URL)
 
 // Express routes
 app.get("/api/v1/products", (req, res) => {
