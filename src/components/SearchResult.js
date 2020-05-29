@@ -64,7 +64,7 @@ const SearchResult = (props) => {
               <Link to={`/store/${props.category.name}`}>
                 <img
                   className="avatar-image"
-                  src=""
+                  src={`icons/${props.category.name}.png`}
                   alt={props.category.name}
                 />
               </Link>
