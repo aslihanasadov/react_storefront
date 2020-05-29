@@ -5,7 +5,6 @@ const ProductIndex = (props) => {
   const [list, setList] = useState([])
   const category = props.match.params.category
 
-
   useEffect(() => {
     fetch(`/api/v1/${category}`)
       .then((response) => {
@@ -31,16 +30,11 @@ const ProductIndex = (props) => {
   const listByProdCat = list.map((product) => {
     return (
       <ProductTile key={product.id} product={product} category={category} />
-      )
-    })
+    )
+  })
 
-    
   return (
-    <div>
-      <div>
-        <h4>{listByProdCat}</h4>
-      </div>
-    </div>
+    <div className="row small-up-1 medium-up-2 large-up-4">{listByProdCat}</div>
   )
 }
 

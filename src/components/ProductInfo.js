@@ -97,28 +97,35 @@ const ProductInfo = (props) => {
   if (props.product) {
     return (
       <div>
-        <h1>{name}</h1>
-        <img src={imageUrl} alt={name} height="100" width="100" />
-        <p>{description}</p>
-        <p>{formattedPrice}</p>
         <div>
-          <form>
-            <div className="row">
-              <div className="large-2 medium-3 small-3 columns end">
-                <label>{available}</label>
-                <label htmlFor="quantity">Quantity: </label>
-                <input
-                  type="number"
-                  step="1"
-                  name="quantity"
-                  id="quantity"
-                  defaultValue="1"
-                  onChange={handleInputChange}
-                />
-                {purchaseButton}
+          <div class="basic-card">
+            <div class="basic-card-image">
+              <img src={imageUrl} alt={name} />
+            </div>
+            <div class="basic-card-content content callout secondary">
+              <h3>{name}</h3>
+              <p>{description}</p>
+            </div>
+            <div class="links callout primary">
+              <div class="menu">
+                <span>
+                  <label>{available}</label>
+                </span>
+                <span>
+                  <label htmlFor="quantity">Quantity: </label>
+                  <input
+                    type="number"
+                    step="1"
+                    name="quantity"
+                    id="quantity"
+                    defaultValue="1"
+                    onChange={handleInputChange}
+                  />
+                </span>
+                <span>{purchaseButton}</span>
               </div>
             </div>
-          </form>
+          </div>
         </div>
 
         <div className={classes.root}>
