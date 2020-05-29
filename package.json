@@ -13,6 +13,9 @@
     "db:seed": "psql react_storefront < db/seed.sql",
     "start": "node server/server.js"
   },
+  "engines": {
+    "node": "12.x"
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
